@@ -3,25 +3,25 @@
 steps:
   # Build app
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '.', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/hello-world-python/hello-world-python:${COMMIT_SHA}', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/hello-world-python/hello-world-python','-f', 'Dockerfile']
+    args: ['build', '.', '-t', 'us-central1-docker.pkg.dev/strategic-ivy-347916/fancy-store-python/fancy-store-python:${COMMIT_SHA}', '-t', 'us-central1-docker.pkg.dev/strategic-ivy-347916/fancy-store-python/fancy-store-python','-f', 'Dockerfile']
     dir: 'app'  
     id: build
   # Run unit tests
-  - name: us-central1-docker.pkg.dev/$PROJECT_ID/hello-world-python/hello-world-python
+  - name: us-central1-docker.pkg.dev/strategic-ivy-347916/fancy-store-python/fancy-store-python
     entrypoint: python
     args: ["-m","pytest","unit_tests.py"]
     dir: 'app'
     id: test
   # Verify code with sonarqube - Quality gate
-  #- name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
-  #  entrypoint: 'bash'
-  #  args:
-  #  - -c
-  #  - /launch.sh -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$$SONAR_TOKEN -Dsonar.projectKey=$$SONAR_PROJECT_KEY -Dsonar.organization=$$SONAR_ORG -Dsonar.sources=./app -Dsonar.qualitygate.wait=false
-  #  secretEnv: ['SONAR_TOKEN','SONAR_ORG','SONAR_PROJECT_KEY']
+  - name: 'gcr.io/strategic-ivy-347916/sonar-scanner:latest'
+    entrypoint: 'bash'
+    args:
+    - -c
+    - /launch.sh -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$$SONAR_TOKEN -Dsonar.projectKey=$$SONAR_PROJECT_KEY -Dsonar.organization=$$SONAR_ORG -Dsonar.sources=./app -Dsonar.qualitygate.wait=false
+    secretEnv: ['SONAR_TOKEN','SONAR_ORG','SONAR_PROJECT_KEY']
   # Push docker image and save image digest for kritis check
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/hello-world-python/hello-world-python']
+    args: ['push', 'us-central1-docker.pkg.dev/strategic-ivy-347916/fancy-store-python/fancy-store-python']
     id: push
   # Create release in Google Cloud Deploy
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
@@ -29,16 +29,16 @@ steps:
     args: 
       [
         "beta", "deploy", "releases", "create", "rel-${SHORT_SHA}",
-        "--delivery-pipeline", "hello-world-python-pipeline",
+        "--delivery-pipeline", "fancy-store-python-pipeline",
         "--region", "us-central1",
         "--annotations", "commitId=${REVISION_ID}",
-        "--images", "hello-world-python=us-central1-docker.pkg.dev/$PROJECT_ID/hello-world-python/hello-world-python:${COMMIT_SHA}"
+        "--images", "fancy-store-python=us-central1-docker.pkg.dev/strategic-ivy-347916/fancy-store-python/fancy-store-python:${COMMIT_SHA}"
       ]
 availableSecrets:
   secretManager:
-  - versionName: projects/871751872177/secrets/SONAR_TOKEN/versions/1
+  - versionName: projects/strategic-ivy-347916/secrets/sonar_token/versions/1
     env: 'SONAR_TOKEN'
-  - versionName: projects/871751872177/secrets/SONAR_ORG/versions/1
+  - versionName: projects/strategic-ivy-347916/secrets/sonar_org/versions/1
     env: 'SONAR_ORG'
-  - versionName: projects/871751872177/secrets/SONAR_PROJECT_KEY/versions/1
+  - versionName: projects/strategic-ivy-347916/secrets/sonar_project_key/versions/1
     env: 'SONAR_PROJECT_KEY'
