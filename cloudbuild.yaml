@@ -12,7 +12,7 @@ steps:
     args: ["-m","pytest","unit_tests.py"]
     dir: 'app'
     id: test
-  # Verify code with sonarqube - Quality gate
+  # Verify code with sonarqube - Quality gatej
   - name: 'gcr.io/strategic-ivy-347916/sonar-scanner:latest'
     entrypoint: 'bash'
     args:
