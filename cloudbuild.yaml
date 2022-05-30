@@ -36,9 +36,9 @@ steps:
       ]
 availableSecrets:
   secretManager:
-  - versionName: projects/strategic-ivy-347916/secrets/sonar_token/versions/1
+  - versionName: projects/871751872177/secrets/SONAR_TOKEN/versions/1
     env: 'SONAR_TOKEN'
-  - versionName: projects/strategic-ivy-347916/secrets/sonar_org/versions/1
+  - versionName: projects/871751872177/secrets/SONAR_ORG/versions/1
     env: 'SONAR_ORG'
-  - versionName: projects/strategic-ivy-347916/secrets/sonar_project_key/versions/1
+  - versionName: projects/871751872177/secrets/SONAR_PROJECT_KEY/versions/1
     env: 'SONAR_PROJECT_KEY'
