@@ -27,11 +27,3 @@ steps:
         "--annotations", "commitId=${REVISION_ID}",
         "--images", "fancy-store-python=us-central1-docker.pkg.dev/strategic-ivy-347916/fancy-store-python/fancy-store-python:${COMMIT_SHA}"
       ]
-availableSecrets:
-  secretManager:
-  - versionName: projects/871751872177/secrets/SONAR_TOKEN/versions/1
-    env: 'SONAR_TOKEN'
-  - versionName: projects/871751872177/secrets/SONAR_ORG/versions/1
-    env: 'SONAR_ORG'
-  - versionName: projects/871751872177/secrets/SONAR_PROJECT_KEY/versions/1
-    env: 'SONAR_PROJECT_KEY'
