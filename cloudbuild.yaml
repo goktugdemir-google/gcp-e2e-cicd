@@ -1,4 +1,4 @@
-# To build and deploy to Cloud Run, run from this directory:
+# To build and deploy to C loud Run, run from this directory:
 # $ gcloud builds submit app --config=cloudbuild.yaml 
 steps:
   # Build app
