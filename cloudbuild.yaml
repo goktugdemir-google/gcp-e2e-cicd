@@ -1,5 +1,5 @@
 # To build and deploy to C loud Run, run from this directory:
-# $ gcloud builds submit app --config=cloudbuild.yaml 
+# $ gcloud builds submit app --confi g=cloudbuild.yaml 
 steps:
   # Build app
   - name: 'gcr.io/cloud-builders/docker'
